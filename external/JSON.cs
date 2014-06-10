@@ -272,7 +272,7 @@ public class JSON
 		int charLength = (lastIndex - index) + 1;
 		
 		var token = new string (json, index, charLength);
-		if (token.Contains(".")) {
+		if (token.Contains(".") || ((token.Contains("e") || token.Contains("E")) && !token.StartsWith("0x"))) {
 			float number;
 			success = float.TryParse (token, NumberStyles.Any, CultureInfo.InvariantCulture, out number);
 			index = lastIndex + 1;
