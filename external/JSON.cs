@@ -278,10 +278,16 @@ public class JSON
 			index = lastIndex + 1;
 			return number;
 		} else {
-			int number;
-			success = int.TryParse(token, out number);
 			index = lastIndex + 1;
-			return number;
+			int number32;
+			success = int.TryParse(token, out number32);
+			if (success) {
+				return number32;
+			}
+			
+			long number64;
+			success = long.TryParse(token, out number64);
+			return number64;
 		}
 	}
 
