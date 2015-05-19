@@ -75,9 +75,9 @@ namespace HTTP
 			this.method = method;
 			this.uri = new Uri (uri);
 			this.bytes = form.data;
-            foreach ( DictionaryEntry entry in form.headers )
+            foreach ( KeyValuePair<string,string> entry in form.headers )
             {
-                this.AddHeader( (string)entry.Key, (string)entry.Value );
+                this.AddHeader(entry.Key, entry.Value );
             }
         }
 
