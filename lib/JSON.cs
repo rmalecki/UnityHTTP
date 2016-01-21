@@ -12,7 +12,7 @@ using System.Text;
 /// Spec. details, see http://www.json.org/
 /// 
 /// JSON uses Arrays and Objects. These correspond here to the datatypes ArrayList and Hashtable.
-/// All numbers are parsed to floats or ints.
+/// All numbers are parsed to floats, ints, or longs.
 /// </summary>
 public class JSON
 {
@@ -272,23 +272,25 @@ public class JSON
 		int charLength = (lastIndex - index) + 1;
 		
 		var token = new string (json, index, charLength);
-		if (token.Contains(".") || ((token.Contains("e") || token.Contains("E")) && !token.StartsWith("0x"))) {
+		index = lastIndex + 1;
+		if ( token.Contains( "." ) || ((token.Contains("e") || token.Contains("E")) && !token.StartsWith("0x")))
+		{
 			float number;
-			success = float.TryParse (token, NumberStyles.Any, CultureInfo.InvariantCulture, out number);
-			index = lastIndex + 1;
-			return number;
-		} else {
-			index = lastIndex + 1;
-			int number32;
-			success = int.TryParse(token, out number32);
-			if (success) {
-				return number32;
-			}
-			
-			long number64;
-			success = long.TryParse(token, out number64);
-			return number64;
-		}
+ 			success = float.TryParse (token, NumberStyles.Any, CultureInfo.InvariantCulture, out number);
+ 			return number;
+ 		}
+ 		else if(token.Length <= 10)
+ 		{
+ 			int number;
+ 			success = int.TryParse(token, out number);
+ 			return number;
+ 		} 
+ 		else 
+ 		{
+ 			long number;
+ 			success = long.TryParse(token, out number);
+ 			return number;
+ 		}
 	}
 
 	protected static int GetLastIndexOfNumber (char[] json, int index)
@@ -405,6 +407,8 @@ public class JSON
 			builder.Append ("false");
 		} else if (value == null) {
 			builder.Append ("null");
+		} else if(value.GetType().IsArray) {
+			success = SerializeArray((object[])value, builder);
 		} else {
 			success = false;
 		}
@@ -458,6 +462,29 @@ public class JSON
 		}
 		
 		builder.Append ("]");
+		return true;
+	}
+
+	protected static bool SerializeArray(object[] anArray, StringBuilder builder) 
+	{
+		builder.Append("[");
+		
+		bool first = true;
+		for(int i = 0; i < anArray.Length; i++) {
+			object value = anArray[i];
+			
+			if(!first) {
+				builder.Append(", ");
+			}
+			
+			if(!SerializeValue(value, builder)) {
+				return false;
+			}
+			
+			first = false;
+		}
+		
+		builder.Append("]");
 		return true;
 	}
 

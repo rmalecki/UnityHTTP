@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace HTTP
 {
-	public class ResponseCallbackDispatcher : MonoBehaviour
+    public class ResponseCallbackDispatcher : MonoBehaviour
     {
         private static ResponseCallbackDispatcher singleton = null;
         private static GameObject singletonGameObject = null;
@@ -33,6 +33,7 @@ namespace HTTP
                 }
 
                 singletonGameObject = new GameObject();
+                GameObject.DontDestroyOnLoad(singletonGameObject);
                 singleton = singletonGameObject.AddComponent< ResponseCallbackDispatcher >();
                 singletonGameObject.name = "HTTPResponseCallbackDispatcher";
             }
