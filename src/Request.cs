@@ -74,16 +74,6 @@ namespace UnityHTTP
             this.byteStream = new MemoryStream(bytes);
         }
 
-        public Request(string method, string uri, StreamedWWWForm form){
-            this.method = method;
-            this.uri = new Uri (uri);
-            this.byteStream = form.stream;
-            foreach ( DictionaryEntry entry in form.headers )
-            {
-                this.AddHeader( (string)entry.Key, (string)entry.Value );
-            }
-        }
-
         public Request( string method, string uri, WWWForm form )
         {
             this.method = method;
