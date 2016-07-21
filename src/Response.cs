@@ -6,7 +6,7 @@ using System.Text;
 using System.Globalization;
 using Ionic.Zlib;
 
-namespace HTTP
+namespace UnityHTTP
 {
     public class Response
     {
@@ -210,7 +210,7 @@ namespace HTTP
                         AddHeader( parts[0], parts[1] );
                     }
                     
-                } else {
+                } else if (request.method.ToUpper() != "HEAD") {
                     // Read Body
                     int contentLength = 0;
 
