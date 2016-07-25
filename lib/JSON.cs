@@ -279,18 +279,18 @@ public class JSON
  			success = float.TryParse (token, NumberStyles.Any, CultureInfo.InvariantCulture, out number);
  			return number;
  		}
- 		else if(token.Length <= 10)
- 		{
- 			int number;
- 			success = int.TryParse(token, out number);
- 			return number;
- 		} 
  		else 
  		{
- 			long number;
- 			success = long.TryParse(token, out number);
- 			return number;
- 		}
+			int number32;
+			success = int.TryParse(token, out number32);
+			if (success) {
+				return number32;
+			}
+			
+			long number64;
+			success = long.TryParse(token, out number64);
+			return number64;
+ 		} 
 	}
 
 	protected static int GetLastIndexOfNumber (char[] json, int index)
