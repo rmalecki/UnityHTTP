@@ -79,7 +79,7 @@ namespace UnityHTTP
             this.method = method;
             this.uri = new Uri (uri);
             this.byteStream = new MemoryStream(form.data);
-#if UNITY_5 || UNITY_2017
+#if UNITY_5 || UNITY_2017 || UNITY_2018
             foreach ( var entry in form.headers )
             {
                 this.AddHeader( entry.Key, entry.Value );
